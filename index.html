@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joshua Ndakotsu — Soil Microbiologist</title>
+<meta name="description" content="Joshua Ndakotsu — Soil Microbiologist & Environmental Microbiologist, IAR&T / University of Ibadan">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a08;
+    --panel:#131310;
+    --panel-2:#17170f;
+    --text:#ece7db;
+    --text-muted:#a6a49a;
+    --accent:#d4af37;
+    --accent-dim:rgba(212,175,55,0.13);
+    --soil:#a9744f;
+    --soil-dim:rgba(169,116,79,0.16);
+    --border:rgba(212,175,55,0.20);
+    --border-soft:rgba(236,231,219,0.09);
+    --font-display:'Fraunces', serif;
+    --font-body:'IBM Plex Sans', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;background:var(--bg);}
+  body{
+    color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  #field{position:absolute;top:0;left:0;width:100%;z-index:0;display:block;}
+  .spotlight{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(212,175,55,0.05), transparent 70%);
+    transition:background .1s ease;}
+
+  a{color:inherit;}
+  ::selection{background:var(--accent-dim);color:var(--accent);}
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:20;
+    display:flex;align-items:center;justify-content:flex-end;
+    padding:18px clamp(20px,5vw,56px);
+    background:linear-gradient(to bottom, rgba(10,10,8,0.92), rgba(10,10,8,0));
+    backdrop-filter:blur(6px);
+  }
+  .nav-links{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;}
+  .nav-links a{text-decoration:none;color:var(--text-muted);transition:color .2s ease;padding-bottom:4px;border-bottom:1px solid transparent;}
+  .nav-links a:hover{color:var(--accent);border-color:var(--border);}
+  .nav-toggle{display:none;}
+  .nav-backdrop{display:none;}
+  @media (max-width:760px){
+    .nav-links{position:fixed;top:60px;left:0;right:0;background:var(--panel);border-bottom:1px solid var(--border-soft);
+      flex-direction:column;gap:0;padding:0;max-height:0;overflow:hidden;opacity:0;pointer-events:none;z-index:21;
+      transition:max-height .3s ease, opacity .25s ease, padding .3s ease;}
+    .nav-links.open{max-height:420px;opacity:1;padding:8px 0;pointer-events:auto;box-shadow:0 20px 40px -12px rgba(0,0,0,0.7);}
+    .nav-links a{padding:12px 24px;width:100%;border-bottom:1px solid var(--border-soft);}
+    .nav-toggle{display:flex;background:none;border:1px solid var(--border);color:var(--accent);border-radius:6px;padding:7px 10px;font-family:var(--font-mono);font-size:11px;cursor:pointer;}
+    .nav-backdrop{display:block;position:fixed;inset:0;z-index:19;background:rgba(0,0,0,0);pointer-events:none;
+      transition:background .3s ease;}
+    .nav-backdrop.open{background:rgba(0,0,0,0.6);pointer-events:auto;}
+  }
+
+  section{position:relative;z-index:2;padding:120px clamp(20px,6vw,64px) 20px;max-width:1180px;margin:0 auto;}
+  #hero{min-height:100vh;display:flex;align-items:center;padding-top:120px;}
+
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);
+    margin:0 0 22px;display:flex;align-items:center;gap:10px;}
+  .eyebrow .pulse{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2.4s ease-in-out infinite;flex:none;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(212,175,55,.55);}70%{box-shadow:0 0 0 8px rgba(212,175,55,0);}100%{box-shadow:0 0 0 0 rgba(212,175,55,0);}}
+
+  h1.name{font-family:var(--font-display);font-weight:600;font-size:clamp(2.6rem,7vw,5rem);line-height:1.0;letter-spacing:-0.01em;margin:0 0 18px;}
+  .role{font-family:var(--font-body);font-weight:500;font-size:clamp(1rem,2vw,1.2rem);color:var(--text-muted);margin:0 0 26px;}
+  .bio-lead{font-size:1.05rem;line-height:1.75;max-width:640px;color:var(--text);opacity:.92;margin:0 0 36px;}
+  .bio-lead .hl{color:var(--accent);border-bottom:1px dotted var(--border);cursor:default;}
+
+  .hero-links{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:56px;}
+  .pill-link{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border:1px solid var(--border);border-radius:100px;
+    text-decoration:none;font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;color:var(--text);background:var(--panel);
+    transition:border-color .2s ease, transform .15s ease, background .2s ease;}
+  .pill-link:hover{border-color:var(--accent);transform:translateY(-2px);background:var(--accent-dim);}
+  .pill-link.solid{background:var(--accent);color:#141208;border-color:var(--accent);font-weight:600;}
+  .pill-link.solid:hover{background:#e6c15a;}
+  .pill-link svg{width:14px;height:14px;flex:none;}
+
+  .stat-row{display:grid;grid-template-columns:repeat(2,1fr);max-width:440px;gap:28px;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);}
+  .stat{padding:20px 18px 20px 0;border-right:1px solid var(--border-soft);}
+  .stat:last-child{border-right:none;}
+  .stat-num{font-family:var(--font-display);font-size:1.7rem;color:var(--accent);font-weight:600;line-height:1;}
+  .stat-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-top:8px;}
+  @media (max-width:720px){
+    .stat{padding:16px;}
+  }
+
+  /* ---------- fact ticker (hero) ---------- */
+  .fact-ticker{display:flex;align-items:baseline;gap:8px;padding:12px 14px;margin:0 0 26px;max-width:600px;
+    border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:4px;background:var(--panel);}
+  .fact-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);flex:none;}
+  .fact-text{font-size:.82rem;line-height:1.5;color:var(--text-muted);transition:opacity .4s ease;}
+  .fact-text.fade{opacity:0;}
+
+  /* ---------- mascot guide ---------- */
+  .mascot-wrap{position:fixed;right:20px;bottom:20px;z-index:30;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+  .bubble{max-width:220px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 14px;
+    font-family:var(--font-body);font-size:.82rem;line-height:1.5;color:var(--text);box-shadow:0 10px 30px -10px rgba(0,0,0,0.6);
+    position:relative;opacity:0;transform:translateY(6px) scale(.98);pointer-events:none;transition:opacity .22s ease, transform .22s ease;}
+  .bubble.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+  .bubble::after{content:"";position:absolute;right:22px;bottom:-6px;width:12px;height:12px;background:var(--panel);
+    border-right:1px solid var(--border);border-bottom:1px solid var(--border);transform:rotate(45deg);}
+  .bubble-close{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--text-muted);font-family:var(--font-mono);font-size:12px;cursor:pointer;padding:4px;line-height:1;}
+  .bubble-close:hover{color:var(--accent);}
+  .bubble-dots{display:flex;gap:4px;margin-top:8px;}
+  .bubble-dots span{width:4px;height:4px;border-radius:50%;background:var(--border);}
+  .bubble-dots span.active{background:var(--accent);}
+  .mascot-btn{width:50px;height:50px;border-radius:50%;border:1px solid var(--border);background:var(--panel);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 24px -10px rgba(0,0,0,0.6);
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;animation:bob 3.6s ease-in-out infinite;}
+  .mascot-btn:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 10px 26px -8px rgba(212,175,55,0.4);}
+  .mascot-btn svg{width:26px;height:26px;}
+  .mascot-icon{display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .35s ease, transform .35s ease;}
+  .mascot-icon.swap{opacity:0;transform:scale(.8);}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+
+  /* ---------- section headers ---------- */
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px;}
+  .sec-num{font-family:var(--font-mono);font-size:12px;color:var(--soil);letter-spacing:.1em;}
+  .sec-title{font-family:var(--font-display);font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:600;margin:0;}
+  .sec-sub{font-size:.95rem;color:var(--text-muted);max-width:560px;margin:-24px 0 44px;}
+
+  /* ---------- about (editorial layout) ---------- */
+  .about-lead{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:clamp(1.3rem,2.6vw,1.9rem);
+    line-height:1.5;max-width:760px;color:var(--text);margin:0 0 36px;padding-left:26px;border-left:2px solid var(--accent);}
+  .about-body{max-width:700px;}
+  .about-body p{line-height:1.85;color:var(--text);opacity:.92;margin:0 0 20px;font-size:1rem;}
+  .about-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;}
+  .meta-item{border:1px solid var(--border-soft);border-radius:10px;background:var(--panel);padding:20px 22px;}
+  .meta-k{display:block;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:10px;}
+  .meta-v{display:block;font-family:var(--font-display);font-size:1.08rem;font-weight:600;color:var(--text);line-height:1.4;}
+  @media (max-width:760px){
+    .about-meta{grid-template-columns:1fr;}
+  }
+
+  /* ---------- timeline (experience + education) ---------- */
+  .timeline{position:relative;padding-left:28px;border-left:1px solid var(--border-soft);}
+  .t-item{position:relative;padding-bottom:40px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{content:"";position:absolute;left:-33px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);}
+  .t-date{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--soil);text-transform:uppercase;margin-bottom:6px;}
+  .t-role{font-family:var(--font-display);font-size:1.2rem;font-weight:600;margin:0 0 3px;}
+  .t-org{font-size:.88rem;color:var(--text-muted);margin-bottom:12px;}
+  .t-bullets{margin:0;padding-left:18px;color:var(--text);opacity:.88;font-size:.92rem;line-height:1.7;}
+  .t-bullets li{margin-bottom:6px;}
+  .t-tag{display:inline-block;font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--soil);border:1px solid rgba(169,116,79,0.4);background:var(--soil-dim);border-radius:100px;padding:3px 10px;margin-top:12px;}
+
+  /* ---------- research / publications ---------- */
+  .pub-featured{display:block;border:1px solid var(--border);border-radius:10px;background:var(--panel);padding:26px 28px;
+    text-decoration:none;color:var(--text);max-width:720px;transition:border-color .25s ease, transform .2s ease;}
+  .pub-featured:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .pub-status{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+  .pub-title{font-size:1rem;font-weight:500;margin:0 0 8px;line-height:1.55;font-family:var(--font-display);}
+  .pub-meta{font-size:.82rem;color:var(--text-muted);font-family:var(--font-mono);margin:0 0 16px;}
+  .pub-note{font-size:.85rem;color:var(--text-muted);margin:18px 0 0;max-width:640px;line-height:1.7;}
+
+  .research-highlight{border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:6px;background:var(--panel);
+    padding:22px 24px;margin-top:36px;}
+  .research-highlight h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px;}
+  .research-highlight p{font-size:.92rem;line-height:1.75;color:var(--text);opacity:.9;margin:0;}
+
+  /* ---------- projects ---------- */
+  .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:start;}
+  .project-card{border:1px solid var(--border);border-radius:10px;background:var(--panel);padding:28px;display:flex;flex-direction:column;
+    text-decoration:none;color:var(--text);transition:border-color .25s ease, transform .2s ease;position:relative;overflow:hidden;}
+  .project-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+  .project-card::before{content:"";position:absolute;inset:0;background:radial-gradient(220px circle at var(--cx,50%) var(--cy,0%), var(--accent-dim), transparent 70%);opacity:0;transition:opacity .25s ease;pointer-events:none;}
+  .project-card:hover::before{opacity:1;}
+  .project-card.in-progress{border-style:dashed;}
+  .project-card.in-progress .proj-label{color:var(--text-muted);}
+  .proj-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:10px;}
+  .proj-name{font-family:var(--font-display);font-size:1.35rem;font-weight:600;margin:0 0 12px;}
+  .proj-desc{font-size:.9rem;line-height:1.7;color:var(--text-muted);margin:0 0 20px;flex:1;}
+  .proj-teaser{font-size:.88rem;line-height:1.6;color:var(--text-muted);margin:0 0 16px;}
+  .project-card{cursor:pointer;}
+  .proj-details{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease;}
+  .proj-details > div{overflow:hidden;}
+  .project-card.expanded .proj-details{grid-template-rows:1fr;}
+  .proj-thumb{border-radius:8px;overflow:hidden;border:1px solid var(--border-soft);margin:0 0 16px;height:200px;background:var(--bg);}
+  .proj-thumb img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;}
+  .proj-toggle{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-top:auto;background:none;border:none;padding:0;cursor:pointer;}
+  .proj-toggle svg{width:14px;height:14px;transition:transform .25s ease;}
+  .project-card.expanded .proj-toggle svg{transform:rotate(180deg);}
+  .proj-github-link{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);text-decoration:none;margin:16px 0 0;}
+  .proj-github-link svg{width:14px;height:14px;transition:transform .2s ease;}
+  .proj-github-link:hover svg{transform:translateX(3px);}
+  .proj-stats{display:flex;gap:18px;margin-bottom:20px;flex-wrap:wrap;}
+  .proj-stat{font-family:var(--font-mono);font-size:.78rem;}
+  .proj-stat b{color:var(--accent);display:block;font-size:1.05rem;font-family:var(--font-display);}
+  .proj-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .proj-tags span{font-family:var(--font-mono);font-size:10px;letter-spacing:.03em;color:var(--text-muted);border:1px solid var(--border-soft);border-radius:100px;padding:4px 10px;}
+  .proj-cta{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-top:auto;}
+  .proj-cta svg{width:14px;height:14px;transition:transform .2s ease;}
+  .project-card:hover .proj-cta svg{transform:translateX(3px);}
+
+  /* ---------- skills ---------- */
+  .skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media (max-width:860px){.skill-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:560px){.skill-grid{grid-template-columns:1fr;}}
+  .skill-card{border:1px solid var(--border-soft);border-radius:10px;padding:22px;background:var(--panel);}
+  .skill-icon{width:34px;height:34px;border-radius:8px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:14px;}
+  .skill-icon svg{width:18px;height:18px;}
+  .skill-name{font-family:var(--font-display);font-size:1.05rem;font-weight:600;margin:0 0 10px;}
+  .skill-tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .skill-tags span{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.03em;color:var(--text-muted);border:1px solid var(--border-soft);border-radius:100px;padding:3px 9px;}
+
+  .cert-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px;}
+  .cert-chip{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em;color:var(--soil);border:1px solid rgba(169,116,79,0.35);background:var(--soil-dim);border-radius:100px;padding:6px 14px;}
+
+  /* ---------- contact ---------- */
+  #contact{padding-bottom:60px;}
+  .contact-split{display:grid;grid-template-columns:0.85fr 1.3fr;gap:56px;align-items:start;}
+  .contact-text{font-size:1.05rem;line-height:1.85;color:var(--text-muted);max-width:360px;margin:0;}
+  .contact-rows{display:flex;flex-direction:column;border-top:1px solid var(--border-soft);}
+  .c-row{display:flex;align-items:center;gap:16px;padding:18px 6px;border-bottom:1px solid var(--border-soft);
+    text-decoration:none;color:var(--text);transition:padding-left .2s ease, border-color .2s ease;}
+  .c-row:hover{padding-left:14px;border-color:var(--border);}
+  .c-row-icon{width:36px;height:36px;border-radius:8px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;color:var(--accent);flex:none;}
+  .c-row-icon svg{width:16px;height:16px;}
+  .c-row-text{flex:1;display:flex;flex-direction:column;min-width:0;}
+  .c-row-label{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+  .c-row-value{font-family:var(--font-display);font-size:1.02rem;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .c-row-arrow{color:var(--accent);opacity:0;transition:opacity .2s ease, transform .2s ease;flex:none;}
+  .c-row-arrow svg{width:16px;height:16px;}
+  .c-row:hover .c-row-arrow{opacity:1;transform:translateX(3px);}
+  @media (max-width:820px){.contact-split{grid-template-columns:1fr;gap:32px;} .contact-text{max-width:100%;}}
+
+  footer{text-align:center;padding:36px 20px 48px;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);opacity:.6;position:relative;z-index:2;}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+    #field{display:none;}
+    .spotlight{display:none;}
+    .reveal{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="spotlight" id="spotlight" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">MENU</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
+  <!-- ================= HERO ================= -->
+  <section id="hero">
+    <div>
+      <p class="eyebrow"><span class="pulse"></span>Soil Microbiology / Environmental Microbiology</p>
+      <h1 class="name">Joshua<br>Ndakotsu</h1>
+      <p class="role">Soil Scientist (Soil Microbiologist), IAR&amp;T · M.Sc. Candidate, University of Ibadan · Ibadan, Nigeria</p>
+      <p class="bio-lead">I study <span class="hl" title="Bacteria that colonize plant roots and support growth">soil–plant–microbe interactions</span>, microbial functional dynamics, and organic amendment evaluation, combining bench work (enumeration, enzyme assays, PCR, physicochemical characterization) with a growing interest in bioinformatics and machine learning to make sense of what's happening underground.</p>
+
+      <div class="fact-ticker" aria-live="polite">
+        <span class="fact-label">Did you know</span>
+        <span class="fact-text" id="factText"></span>
+      </div>
+
+      <div class="hero-links">
+        <a class="pill-link solid" href="Joshua_Ndakotsu_cv_2026.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="14 3 14 9 20 9"></polyline></svg>
+          Download CV
+        </a>
+        <a class="pill-link" href="https://github.com/Joshbfaaaa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 6 2 12 8 18"></polyline><polyline points="16 6 22 12 16 18"></polyline></svg>
+          GitHub
+        </a>
+        <a class="pill-link" href="https://www.linkedin.com/in/joshua-ndakotsu-318544200" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+          LinkedIn
+        </a>
+        <a class="pill-link" href="mailto:joshuandakotsu789@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"></rect><polyline points="3 7 12 13 21 7"></polyline></svg>
+          Email
+        </a>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years lab &amp; field research</div></div>
+        <div class="stat"><div class="stat-num">5</div><div class="stat-label">Bioinformatics pipelines, GitHub</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <div class="sec-head reveal"><span class="sec-num">01</span><h2 class="sec-title">About</h2></div>
+
+
+
+    <div class="about-body reveal">
+      <p>I'm a soil scientist specializing in soil microbiology and environmental systems, with formal training in soil mapping, land evaluation, soil fertility assessment, and organic matter management. My work sits at the intersection of microbial ecology, soil health, and soil–plant–microbe interactions.</p>
+      <p>Day to day, that means a mix of laboratory and field-based work: microbial enumeration, enzyme activity assays, PCR and DNA extraction, physicochemical characterization, and organic waste stabilization. My research background spans soil quality assessment, bioremediation, and soil amendment evaluation.</p>
+      <p>Outside the lab, I'm teaching myself to bring computation into this work: Python and bioinformatics pipelines for diversity analysis, machine learning, and reproducible microbiome workflows, because a lot of what soil microbes are doing is easier to see once you can model it.</p>
+    </div>
+
+    <div class="about-meta reveal">
+      <div class="meta-item">
+        <span class="meta-k">Current Position</span>
+        <span class="meta-v">Soil Scientist (Soil Microbiologist), IAR&amp;T</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-k">Postgraduate</span>
+        <span class="meta-v">M.Sc. Soil Resources Management, University of Ibadan</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-k">Undergraduate</span>
+        <span class="meta-v">B.Sc. Microbiology (2:1), Landmark University</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section id="experience">
+    <div class="sec-head reveal"><span class="sec-num">02</span><h2 class="sec-title">Experience</h2></div>
+    <p class="sec-sub reveal">Five years across research, regulatory, pharmaceutical QC, water treatment, and, for a stretch in between, whiteboard animation.</p>
+
+    <div class="timeline">
+      <div class="t-item reveal">
+        <div class="t-date">Oct 2024 — Present</div>
+        <h3 class="t-role">Soil Scientist (Soil Microbiologist)</h3>
+        <div class="t-org">Institute of Agricultural Research and Training (IAR&amp;T), Ibadan, Nigeria</div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-date">Mar 2021 — Feb 2022</div>
+        <h3 class="t-role">Intern</h3>
+        <div class="t-org">Nigerian Nuclear Regulatory Authority (NNRA), Abuja, Nigeria</div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-date">Dec 2020 — Mar 2021</div>
+        <h3 class="t-role">Quality Control Officer</h3>
+        <div class="t-org">Sam Pharmaceuticals, Ilorin, Kwara State, Nigeria</div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-date">May 2022 — Oct 2024</div>
+        <h3 class="t-role">Whiteboard Animator</h3>
+        <div class="t-org">Golden Pro Groups, Gudu, Abuja, Nigeria</div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-date">Jan 2019 — Jul 2019</div>
+        <h3 class="t-role">Student Industrial Trainee (SIWES)</h3>
+        <div class="t-org">Lower Usuma Dam, FCT Water Board, Bwari, Abuja, Nigeria</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESEARCH ================= -->
+  <section id="research">
+    <div class="sec-head reveal"><span class="sec-num">03</span><h2 class="sec-title">Education &amp; Research</h2></div>
+
+    <div class="timeline reveal" style="margin-bottom:48px;">
+      <div class="t-item" style="padding-bottom:28px;">
+        <div class="t-date">Mar 2025 — Present</div>
+        <h3 class="t-role">M.Sc. Soil Resources Management (Soil Microbiology)</h3>
+        <div class="t-org">University of Ibadan, Ibadan, Nigeria</div>
+      </div>
+      <div class="t-item" style="padding-bottom:0;">
+        <div class="t-date">Jul 2016 — Nov 2020</div>
+        <h3 class="t-role">B.Sc. Microbiology — Second Class Upper</h3>
+        <div class="t-org">Landmark University, Omu-Aran, Kwara State, Nigeria</div>
+      </div>
+    </div>
+
+    <a class="pub-featured reveal" href="https://doi.org/10.1016/j.sciaf.2021.e01001" target="_blank" rel="noopener">
+      <div class="pub-status published">Peer-Reviewed Publication · 2021</div>
+      <p class="pub-title">Bacterial growth inhibition and antioxidant potentials of leaf infusions of Moringa oleifera, Parkia biglobosa, and Vernonia amygdalina</p>
+      <p class="pub-meta">Akpor, O.B., Ndakotsu, J., Evbuomwan, I.O., Olaolu, T.D., &amp; Osemwegie, O.O. — Scientific African, 14, e01001</p>
+      <div class="proj-cta">Read the paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+    </a>
+    <p class="pub-note reveal">Plus manuscripts accepted and awaiting publication at the Journal of Plant Science and Crop Production and at Discover Agriculture.</p>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <div class="sec-head reveal"><span class="sec-num">04</span><h2 class="sec-title">Projects</h2></div>
+    <p class="sec-sub reveal">Bioinformatics pipelines built to bring computational analysis into microbiome, resistome, and amplicon sequencing work.</p>
+
+    <div class="project-grid">
+      <div class="project-card reveal" tabindex="0">
+        <div class="proj-label">Bioinformatics · AMR Surveillance</div>
+        <h3 class="proj-name">AMR Resistome Pilot</h3>
+        <p class="proj-teaser">AMR gene detection from real manure metagenomic sequencing data. Click for the summary.</p>
+        <div class="proj-details"><div>
+          <div class="proj-thumb"><img src="https://github.com/Joshbfaaaa/amr-resistome-pilot/raw/main/figures/drug_class_breakdown.png" alt="Drug class breakdown chart from the AMR resistome pilot" loading="lazy"></div>
+          <p class="proj-desc">A raw-reads-to-results pipeline detecting antimicrobial resistance (AMR) genes in real shotgun metagenomic sequencing data from livestock manure, using the CARD database and RGI (bwt mode). Compares resistomes between two real manure metagenome samples at both gene and drug-class level: quality control, alignment, and honest reporting of a low mapping rate, with no overstating what a small subsampled dataset can support. Later extended into a 12-sample statistically tested comparison (see next project).</p>
+          <div class="proj-stats">
+            <div class="proj-stat"><b>47 / 91</b>AMR genes detected (sample 1 / 2)</div>
+            <div class="proj-stat"><b>7 / 124</b>genes shared across samples</div>
+          </div>
+          <div class="proj-tags">
+            <span>Python</span><span>RGI · CARD</span><span>fastp</span><span>NCBI SRA</span>
+          </div>
+          <a class="proj-github-link" href="https://github.com/Joshbfaaaa/amr-resistome-pilot" target="_blank" rel="noopener">View full repository on GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div></div>
+        <button class="proj-toggle" type="button" aria-label="Toggle summary">Summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+      </div>
+
+      <div class="project-card reveal" tabindex="0">
+        <div class="proj-label">Bioinformatics · AMR Surveillance</div>
+        <h3 class="proj-name">Manure Resistome Pipeline</h3>
+        <p class="proj-teaser">12-sample manure vs. soil AMR comparison with Mann-Whitney U + FDR testing. Click for the summary.</p>
+        <div class="proj-details"><div>
+          <div class="proj-thumb"><img src="https://github.com/Joshbfaaaa/manure-resistome-pipeline/raw/main/figures/pca_manure_vs_soil.png" alt="PCA plot of manure vs soil AMR gene abundance" loading="lazy"></div>
+          <p class="proj-desc">Extends the pilot into a properly powered comparison: 12 shotgun metagenomic samples (6 manure, 6 soil) run through RGI/CARD alignment, merged into a gene × sample abundance matrix, then tested gene-by-gene with Mann-Whitney U and Benjamini-Hochberg FDR correction across all genes, so only statistically defensible differences are reported, not noise from testing hundreds of genes at once. PCA and a heatmap visualize which genes drive the separation between sources.</p>
+          <div class="proj-stats">
+            <div class="proj-stat"><b>226</b>AMR genes tested</div>
+            <div class="proj-stat"><b>23 / 226</b>genes FDR-significant (19 manure-enriched, 4 soil-enriched)</div>
+          </div>
+          <div class="proj-tags">
+            <span>Python</span><span>RGI · CARD</span><span>Mann-Whitney U</span><span>FDR Correction</span><span>PCA</span>
+          </div>
+          <a class="proj-github-link" href="https://github.com/Joshbfaaaa/manure-resistome-pipeline" target="_blank" rel="noopener">View full repository on GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div></div>
+        <button class="proj-toggle" type="button" aria-label="Toggle summary">Summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+      </div>
+
+      <div class="project-card reveal" tabindex="0">
+        <div class="proj-label">Bioinformatics · Machine Learning</div>
+        <h3 class="proj-name">Microbial Community ML Pipeline</h3>
+        <p class="proj-teaser">Machine learning models predicting shoot growth from soil and microbial variables. Click for the summary.</p>
+        <div class="proj-details"><div>
+          <div class="proj-thumb"><img src="https://github.com/Joshbfaaaa/microbial-community-ml-pipeline/raw/main/figures/predicted_vs_actual.png" alt="Predicted vs actual shoot dry matter chart from the microbial community ML pipeline" loading="lazy"></div>
+          <p class="proj-desc">Moves an agronomy-style amendment trial (treatments × replicates × sampling weeks) into a reproducible Python pipeline: diversity indices from raw genus counts, ANOVA/Tukey HSD treatment comparisons, functional-guild inference, community-fingerprint classification, and machine-learning models (Ridge, Random Forest, Gradient Boosting) predicting shoot dry matter from soil, enzyme, and microbial variables, interpreted with SHAP rather than a single cherry-picked score.</p>
+          <div class="proj-stats">
+            <div class="proj-stat"><b>0.30–0.48</b>Test R² across growth models</div>
+            <div class="proj-stat"><b>5</b>Alpha-diversity metrics computed</div>
+          </div>
+          <div class="proj-tags">
+            <span>Python</span><span>scikit-learn</span><span>SHAP</span><span>Diversity Indices</span>
+          </div>
+          <a class="proj-github-link" href="https://github.com/Joshbfaaaa/microbial-community-ml-pipeline" target="_blank" rel="noopener">View full repository on GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div></div>
+        <button class="proj-toggle" type="button" aria-label="Toggle summary">Summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+      </div>
+
+      <div class="project-card reveal" tabindex="0">
+        <div class="proj-label">Bioinformatics · Cheminformatics</div>
+        <h3 class="proj-name">Drug-Likeness Screening — Moringa, Parkia &amp; Vernonia</h3>
+        <p class="proj-teaser">RDKit screening of phytochemicals from three medicinal plants for drug-likeness. Click for the summary.</p>
+        <div class="proj-details"><div>
+          <div class="proj-thumb"><img src="https://github.com/Joshbfaaaa/moringa-parkia-vernonia-druglikeness/raw/main/fig2_lipinski_space.png" alt="MW vs TPSA chemical space chart from the drug-likeness screening" loading="lazy"></div>
+          <p class="proj-desc">A computational companion to my published leaf-infusion study: RDKit-based screening of 15 literature-reported phytochemicals from Moringa oleifera, Parkia biglobosa, and Vernonia amygdalina for drug-likeness (Lipinski's Rule of Five, Veber's rule) and structural alerts (PAINS, Brenk). Maps the phytochemical classes identified in the original qualitative assay onto named compounds and specific structures, going a step further than the parent paper.</p>
+          <div class="proj-stats">
+            <div class="proj-stat"><b>13 / 15</b>Compounds passing Ro5 &amp; Veber's rule</div>
+            <div class="proj-stat"><b>3</b>Michael acceptor alerts (Brenk)</div>
+          </div>
+          <div class="proj-tags">
+            <span>RDKit</span><span>Python</span><span>Lipinski Ro5</span><span>PAINS · Brenk</span>
+          </div>
+          <a class="proj-github-link" href="https://github.com/Joshbfaaaa/moringa-parkia-vernonia-druglikeness" target="_blank" rel="noopener">View full repository on GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div></div>
+        <button class="proj-toggle" type="button" aria-label="Toggle summary">Summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+      </div>
+
+      <div class="project-card reveal" tabindex="0">
+        <div class="proj-label">Bioinformatics · Comparative Genomics</div>
+        <h3 class="proj-name">PGPB Marker Gene Screening</h3>
+        <p class="proj-teaser">BLASTp screening of 24 bacterial genomes for PGPB marker genes. Click for the summary.</p>
+        <div class="proj-details"><div>
+          <div class="proj-thumb"><img src="https://github.com/Joshbfaaaa/pgpb-marker-screening/raw/main/results/marker_presence_heatmap.png" alt="Marker gene presence heatmap across 24 screened genomes" loading="lazy"></div>
+          <p class="proj-desc">A BLASTp-based pipeline screening 24 bacterial genomes (Bacillus, Pseudomonas, and Azospirillum species, plus outgroups) for three PGPB-associated marker genes: nifH (nitrogen fixation), pqqC (phosphate solubilization), and acdS (ACC deaminase/stress-ethylene modulation), against curated Swiss-Prot/NCBI reference sequences. Reciprocal BLAST caught a systematic false positive in Pseudomonas acdS hits, a cross-reaction within the broad PF00291 PLP-dependent enzyme family, filtered out before reporting genuine presence/absence calls.</p>
+          <div class="proj-stats">
+            <div class="proj-stat"><b>8 / 24</b>Genomes carrying nifH</div>
+            <div class="proj-stat"><b>15 / 24</b>Genomes carrying pqqC</div>
+            <div class="proj-stat"><b>4 / 24</b>Confirmed acdS after FP filtering</div>
+          </div>
+          <div class="proj-tags">
+            <span>BLAST+</span><span>NCBI Datasets</span><span>Python</span><span>Reciprocal BLAST</span>
+          </div>
+          <a class="proj-github-link" href="https://github.com/Joshbfaaaa/pgpb-marker-screening" target="_blank" rel="noopener">View full repository on GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div></div>
+        <button class="proj-toggle" type="button" aria-label="Toggle summary">Summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+      </div>
+
+      <div class="project-card reveal in-progress" tabindex="0">
+        <div class="proj-label">Bioinformatics · 16S Amplicon Metagenomics</div>
+        <h3 class="proj-name">Compost Bucket Microbiome Comparison</h3>
+        <p class="proj-teaser">Comparing microbial communities across two compost bucket designs — in development. Click for the summary.</p>
+        <div class="proj-details"><div>
+          <p class="proj-desc">Third in the pipeline series: real published 16S rRNA amplicon sequencing data comparing microbial communities across two compost bucket designs, conventional vs. a redesigned pyramid shape. Raw reads from 12 samples run through QIIME 2/DADA2 for per-sample error correction, paired-read merging, and chimera removal, producing a clean ASV table of exact sequence variants per sample — with six replicates per design, enough for genuine group-level hypothesis testing (PERMANOVA) on whether bucket geometry actually shifts community structure.</p>
+          <div class="proj-stats">
+            <div class="proj-stat"><b>6 vs 6</b>Samples per bucket design</div>
+            <div class="proj-stat"><b>PERMANOVA</b>Group-level significance test</div>
+          </div>
+          <div class="proj-tags">
+            <span>QIIME 2</span><span>DADA2</span><span>ASV Table</span><span>PERMANOVA</span>
+          </div>
+          <a class="proj-github-link" href="https://github.com/Joshbfaaaa" target="_blank" rel="noopener">In development · follow on GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div></div>
+        <button class="proj-toggle" type="button" aria-label="Toggle summary">Summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+      </div>
+    </div>
+  </section>
+  <section id="skills">
+    <div class="sec-head reveal"><span class="sec-num">05</span><h2 class="sec-title">Skills</h2></div>
+
+    <div class="skill-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a10 10 0 0 0-7 17.1V22l7-3 7 3v-2.9A10 10 0 0 0 12 2z"></path></svg></div>
+        <h4 class="skill-name">Soil &amp; Microbial Ecology</h4>
+        <div class="skill-tags"><span>PGPB isolation</span><span>Biofertilization</span><span>Microbial enumeration &amp; culturing</span><span>Bioremediation</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V3"></path><line x1="9" y1="3" x2="15" y2="3"></line></svg></div>
+        <h4 class="skill-name">Molecular Techniques</h4>
+        <div class="skill-tags"><span>PCR</span><span>DNA extraction</span><span>Gel electrophoresis</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18"></path></svg></div>
+        <h4 class="skill-name">Soil &amp; Plant Analysis</h4>
+        <div class="skill-tags"><span>Physicochemical characterization</span><span>Enzyme assays</span><span>Plant tissue analysis</span><span>Soil mapping &amp; land evaluation</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="12" width="4" height="8"></rect><rect x="10" y="7" width="4" height="13"></rect><rect x="17" y="3" width="4" height="17"></rect></svg></div>
+        <h4 class="skill-name">Data &amp; Bioinformatics</h4>
+        <div class="skill-tags"><span>R</span><span>Python</span><span>Linux</span><span>Git</span><span>DADA2</span><span>QIIME 2</span><span>BLAST</span><span>BWA</span><span>Kraken2</span><span>Snakemake</span><span>GenStat</span><span>scikit-learn</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+        <h4 class="skill-name">Water Quality &amp; Phytochemistry</h4>
+        <div class="skill-tags"><span>Water quality analysis</span><span>Phytochemical extraction</span><span>Antioxidant assays (DPPH)</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div>
+        <h4 class="skill-name">Experimental Design &amp; Writing</h4>
+        <div class="skill-tags"><span>Experimental design</span><span>Scientific writing</span><span>Publication</span><span>Technical reporting</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact">
+    <div class="sec-head reveal"><span class="sec-num">06</span><h2 class="sec-title">Contact</h2></div>
+    <div class="contact-split">
+      <p class="contact-text reveal">Open to research collaborations, graduate opportunities, and consultancy work in soil microbiology and environmental systems. Reach me through whichever channel works best for you.</p>
+
+      <div class="contact-rows reveal">
+        <a class="c-row" href="mailto:joshuandakotsu789@gmail.com">
+          <span class="c-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"></rect><polyline points="3 7 12 13 21 7"></polyline></svg></span>
+          <span class="c-row-text"><span class="c-row-label">Personal Email</span><span class="c-row-value">joshuandakotsu789@gmail.com</span></span>
+          <span class="c-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+        </a>
+        <a class="c-row" href="mailto:jndakotsu@iart.gov.ng">
+          <span class="c-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"></rect><polyline points="3 7 12 13 21 7"></polyline></svg></span>
+          <span class="c-row-text"><span class="c-row-label">Work Email</span><span class="c-row-value">jndakotsu@iart.gov.ng</span></span>
+          <span class="c-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+        </a>
+        <a class="c-row" href="https://www.linkedin.com/in/joshua-ndakotsu-318544200" target="_blank" rel="noopener">
+          <span class="c-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><line x1="10" y1="12" x2="14" y2="12"></line></svg></span>
+          <span class="c-row-text"><span class="c-row-label">LinkedIn</span><span class="c-row-value">joshua-ndakotsu</span></span>
+          <span class="c-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+        </a>
+        <a class="c-row" href="https://github.com/Joshbfaaaa" target="_blank" rel="noopener">
+          <span class="c-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 6 2 12 8 18"></polyline><polyline points="16 6 22 12 16 18"></polyline></svg></span>
+          <span class="c-row-text"><span class="c-row-label">GitHub</span><span class="c-row-value">Joshua Ndakotsu</span></span>
+          <span class="c-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Joshua Ndakotsu · Ibadan, Nigeria</footer>
+
+  <div class="mascot-wrap">
+    <div class="bubble" id="bubble" role="status">
+      <button class="bubble-close" id="bubbleClose" aria-label="Close tip">&times;</button>
+      <span id="bubbleText"></span>
+      <div class="bubble-dots" id="bubbleDots" aria-hidden="true"></div>
+    </div>
+    <button class="mascot-btn" id="mascotBtn" aria-label="Show a tip about this page">
+      <span class="mascot-icon" id="mascotIcon">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="14" fill="currentColor" opacity="0.14"></circle>
+          <circle cx="20" cy="15.5" r="5.5" stroke="currentColor" stroke-width="1.7"></circle>
+          <path d="M9.5 31c1.6-5.4 6-8 10.5-8s8.9 2.6 10.5 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+        </svg>
+      </span>
+    </button>
+  </div>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* nav toggle (mobile) */
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  var backdrop = document.getElementById('navBackdrop');
+  if(toggle){
+    toggle.addEventListener('click', function(){
+      links.classList.toggle('open');
+      if(backdrop) backdrop.classList.toggle('open');
+    });
+    links.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        links.classList.remove('open');
+        if(backdrop) backdrop.classList.remove('open');
+      });
+    });
+    if(backdrop){
+      backdrop.addEventListener('click', function(){
+        links.classList.remove('open');
+        backdrop.classList.remove('open');
+      });
+    }
+  }
+
+  var isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+  /* cursor spotlight */
+  var spot = document.getElementById('spotlight');
+  if(spot && !reduceMotion && !isCoarsePointer){
+    window.addEventListener('pointermove', function(e){
+      spot.style.setProperty('--mx', e.clientX + 'px');
+      spot.style.setProperty('--my', e.clientY + 'px');
+    }, {passive:true});
+  }
+
+  /* project card local glow */
+  document.querySelectorAll('.project-card').forEach(function(card){
+    if(!reduceMotion && !isCoarsePointer){
+      card.addEventListener('pointermove', function(e){
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--cx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--cy', (e.clientY - r.top) + 'px');
+      });
+    }
+  });
+
+  /* project card expand-to-summary toggle */
+  document.querySelectorAll('.project-card').forEach(function(card){
+    function toggle(){ card.classList.toggle('expanded'); }
+    card.addEventListener('click', function(e){
+      if(e.target.closest('.proj-github-link')) return;
+      toggle();
+    });
+    card.addEventListener('keydown', function(e){
+      if(e.target.closest('.proj-github-link')) return;
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
+
+  /* scroll reveal */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window && !reduceMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---- mascot guide ---- */
+  var tips = [
+    "Hi! I'm your guide \u2014 I'll point out a few things worth trying on this page.",
+    "That drifting network behind the text is a nod to soil microbial networks. Move your cursor through it.",
+    "Use the menu up top to jump straight to Experience, Research, Projects, or Skills.",
+    "The project cards link straight to my GitHub repos \u2014 click through for the full README.",
+    "Tap \u201cDownload CV\u201d to open the full CV right in your browser.",
+    "That's everything \u2014 click me again anytime for another tip."
+  ];
+
+  var mascotIcons = [
+    '<svg viewBox="0 0 40 40" fill="none"><ellipse cx="20" cy="22" rx="14" ry="12" fill="currentColor" opacity="0.14"></ellipse><ellipse cx="20" cy="22" rx="14" ry="12" stroke="currentColor" stroke-width="1.6"></ellipse><path d="M9 14c-2-2-2-5 0-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path><path d="M31 14c2-2 2-5 0-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path><path d="M13 30c-1 2-1 4 1 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path><circle cx="15.5" cy="20" r="1.7" fill="currentColor"></circle><circle cx="24.5" cy="20" r="1.7" fill="currentColor"></circle><path d="M16 26c1.5 1.4 6.5 1.4 8 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>',
+    '<svg viewBox="0 0 40 40" fill="none"><path d="M13 6c0 8 14 8 14 16s-14 8-14 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M27 6c0 8-14 8-14 16s14 8 14 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><line x1="14.3" y1="11" x2="25.7" y2="11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></line><line x1="13.3" y1="20" x2="26.7" y2="20" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></line><line x1="14.3" y1="29" x2="25.7" y2="29" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></line></svg>',
+    '<svg viewBox="0 0 40 40" fill="none"><path d="M17 30h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M20 30v-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M14 25a8 8 0 1 1 12 0" stroke="currentColor" stroke-width="1.6"></path><path d="M22 10l6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M19 7l6 6-3 3-6-6z" fill="currentColor" opacity="0.16" stroke="currentColor" stroke-width="1.4"></path><line x1="11" y1="30" x2="29" y2="30" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></line></svg>',
+    '<svg viewBox="0 0 40 40" fill="none"><ellipse cx="20" cy="22" rx="14" ry="6" stroke="currentColor" stroke-width="1.6"></ellipse><path d="M6 22v3c0 3.3 6.3 6 14 6s14-2.7 14-6v-3" stroke="currentColor" stroke-width="1.6"></path><circle cx="15" cy="20" r="1.4" fill="currentColor"></circle><circle cx="23" cy="19" r="1" fill="currentColor"></circle><circle cx="20" cy="23" r="1.6" fill="currentColor"></circle><circle cx="26" cy="23" r="1" fill="currentColor"></circle></svg>',
+    '<svg viewBox="0 0 40 40" fill="none"><path d="M20 8v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M20 10c-3-4-9-3-9-3s0 6 5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M20 10c3-4 9-3 9-3s0 6-5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M20 18c-1 4-4 5-4 9M20 18c1 4 4 5 4 9M20 18v14M20 22c-2 2-2 5-2 5M20 25c2 1 2 4 2 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>',
+    '<svg viewBox="0 0 40 40" fill="none"><rect x="7" y="7" width="26" height="26" rx="1.5" stroke="currentColor" stroke-width="1.6"></rect><line x1="7" y1="15" x2="33" y2="15" stroke="currentColor" stroke-width="1.3"></line><line x1="7" y1="24" x2="33" y2="24" stroke="currentColor" stroke-width="1.3"></line><circle cx="13" cy="19.5" r="1" fill="currentColor"></circle><circle cx="20" cy="28.5" r="1" fill="currentColor"></circle><circle cx="27" cy="19.5" r="1" fill="currentColor"></circle><circle cx="16" cy="29" r="1" fill="currentColor"></circle></svg>'
+  ];
+
+  var mascotBtn = document.getElementById('mascotBtn');
+  var mascotIconEl = document.getElementById('mascotIcon');
+  var bubble = document.getElementById('bubble');
+  var bubbleText = document.getElementById('bubbleText');
+  var bubbleClose = document.getElementById('bubbleClose');
+  var bubbleDots = document.getElementById('bubbleDots');
+  var tipIndex = 0;
+  var iconIndex = 0;
+
+  if(bubbleDots){
+    tips.forEach(function(){
+      var d = document.createElement('span');
+      bubbleDots.appendChild(d);
+    });
+  }
+
+  function renderTip(){
+    bubbleText.textContent = tips[tipIndex];
+    var dots = bubbleDots.querySelectorAll('span');
+    dots.forEach(function(d, i){ d.classList.toggle('active', i === tipIndex); });
+    bubble.classList.add('show');
+  }
+
+  function cycleIcon(){
+    if(!mascotIconEl) return;
+    mascotIconEl.classList.add('swap');
+    setTimeout(function(){
+      iconIndex = (iconIndex + 1) % mascotIcons.length;
+      mascotIconEl.innerHTML = mascotIcons[iconIndex];
+      mascotIconEl.classList.remove('swap');
+    }, reduceMotion ? 0 : 350);
+  }
+
+  if(mascotBtn){
+    mascotBtn.addEventListener('click', function(){
+      if(bubble.classList.contains('show')){
+        tipIndex = (tipIndex + 1) % tips.length;
+      }
+      renderTip();
+    });
+  }
+  if(bubbleClose){
+    bubbleClose.addEventListener('click', function(e){
+      e.stopPropagation();
+      bubble.classList.remove('show');
+    });
+  }
+
+  if(!reduceMotion){
+    setInterval(cycleIcon, 18000);
+  }
+
+  try{
+    if(!sessionStorage.getItem('jn-greeted')){
+      setTimeout(function(){
+        renderTip();
+        sessionStorage.setItem('jn-greeted', '1');
+      }, 1800);
+    }
+  }catch(e){ /* storage blocked, skip auto-greeting */ }
+
+  /* ---- rotating microbiology fun facts ---- */
+  var facts = [
+    "A single gram of healthy soil can contain over a billion bacterial cells.",
+    "Some bacteria produce antibiotics to fight off competing microbes \u2014 the origin of streptomycin.",
+    "Antimicrobial resistance genes can move between unrelated bacteria through horizontal gene transfer.",
+    "PCR, the technique used to amplify DNA, was inspired by a heat-loving bacterium found in a hot spring.",
+    "Deinococcus radiodurans can survive radiation doses thousands of times higher than what would kill a human.",
+    "Bacteria can communicate and coordinate behavior through chemical signaling called quorum sensing.",
+    "Fermentation, used to make yogurt, bread, and beer, is essentially controlled microbial metabolism.",
+    "Extremophile microbes have been found thriving in acid mine drainage, deep-sea vents, and Antarctic ice.",
+    "CRISPR, now a gene-editing tool, evolved as a bacterial immune system against viruses.",
+    "Biofilms \u2014 microbial communities encased in a protective matrix \u2014 are behind most chronic bacterial infections.",
+    "Manure is a recognized environmental reservoir for antimicrobial resistance genes.",
+    "Plant growth-promoting bacteria (PGPB) can fix nitrogen and solubilize phosphate for their host plant."
+  ];
+  var factText = document.getElementById('factText');
+  var factIndex = 0;
+
+  function renderFact(){
+    if(!factText) return;
+    factText.textContent = facts[factIndex];
+  }
+
+  function cycleFact(){
+    if(!factText) return;
+    factText.classList.add('fade');
+    setTimeout(function(){
+      factIndex = (factIndex + 1) % facts.length;
+      renderFact();
+      factText.classList.remove('fade');
+    }, reduceMotion ? 0 : 400);
+  }
+
+  renderFact();
+  setInterval(cycleFact, 30000);
+
+  /* ---------- ambient mycelial network canvas (full-page height) ---------- */
+  var canvas = document.getElementById('field');
+  if(canvas && !reduceMotion){
+    var ctx = canvas.getContext('2d');
+    var isCoarse = window.matchMedia('(pointer: coarse)').matches;
+    var dpr = Math.min(window.devicePixelRatio || 1, isCoarse ? 1.5 : 2);
+    var w, h, nodes = [];
+    var mouse = {x:-9999, y:-9999};
+    var NODE_COUNT;
+    var NODE_CAP = isCoarse ? 90 : 220;
+
+    function resize(){
+      var docH = Math.max(document.body.scrollHeight, window.innerHeight);
+      w = canvas.width = window.innerWidth * dpr;
+      h = canvas.height = docH * dpr;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = (h/dpr) + 'px';
+      NODE_COUNT = Math.min(NODE_CAP, Math.round((window.innerWidth * (h/dpr)) / 18000));
+      nodes = [];
+      for(var i=0;i<NODE_COUNT;i++){
+        nodes.push({
+          x: Math.random()*w, y: Math.random()*h,
+          vx:(Math.random()-0.5)*0.15*dpr, vy:(Math.random()-0.5)*0.15*dpr,
+          r: (Math.random()*1.4+0.6)*dpr
+        });
+      }
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    window.addEventListener('pointermove', function(e){
+      mouse.x = e.clientX*dpr; mouse.y = (e.clientY + window.scrollY)*dpr;
+    }, {passive:true});
+    window.addEventListener('pointerleave', function(){
+      mouse.x = -9999; mouse.y = -9999;
+    });
+
+    var MOUSE_DIST = 170 * dpr;
+
+    function step(){
+      ctx.clearRect(0,0,w,h);
+      for(var i=0;i<nodes.length;i++){
+        var n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if(n.x<0||n.x>w) n.vx*=-1;
+        if(n.y<0||n.y>h) n.vy*=-1;
+
+        var dxm = n.x - mouse.x, dym = n.y - mouse.y;
+        var dm = Math.sqrt(dxm*dxm + dym*dym);
+        if(dm < MOUSE_DIST){
+          var force = (1 - dm/MOUSE_DIST) * 0.03;
+          n.vx += (dxm/dm) * force;
+          n.vy += (dym/dm) * force;
+        }
+        var speed = Math.sqrt(n.vx*n.vx + n.vy*n.vy);
+        var maxSpeed = 0.5 * dpr;
+        if(speed > maxSpeed){ n.vx = (n.vx/speed)*maxSpeed; n.vy = (n.vy/speed)*maxSpeed; }
+      }
+      ctx.lineWidth = 1*dpr;
+      for(var i=0;i<nodes.length;i++){
+        for(var j=i+1;j<nodes.length;j++){
+          var a=nodes[i], b=nodes[j];
+          var dx=a.x-b.x, dy=a.y-b.y;
+          var dist = Math.sqrt(dx*dx+dy*dy);
+          var maxDist = 140*dpr;
+          if(dist<maxDist){
+            var op = (1-dist/maxDist)*0.16;
+            ctx.strokeStyle = 'rgba(212,175,55,'+op+')';
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+        var dxm2 = nodes[i].x - mouse.x, dym2 = nodes[i].y - mouse.y;
+        var dm2 = Math.sqrt(dxm2*dxm2 + dym2*dym2);
+        if(dm2 < MOUSE_DIST){
+          var op2 = (1 - dm2/MOUSE_DIST) * 0.32;
+          ctx.strokeStyle = 'rgba(212,175,55,'+op2+')';
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+      for(var i=0;i<nodes.length;i++){
+        var n = nodes[i];
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(212,175,55,0.6)';
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+})();
+</script>
+</body>
+</html>
