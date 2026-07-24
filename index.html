@@ -695,6 +695,9 @@
        so the viewport never actually drifts in the first place. */
     function compensateScroll(prevH, durationMs){
       var start = null;
+      var root = document.documentElement;
+      var prevScrollBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto'; /* force instant; smooth CSS would turn every per-frame nudge into its own animated scroll */
       function step(ts){
         if(start === null) start = ts;
         var curH = card.offsetHeight;
@@ -705,6 +708,8 @@
         }
         if(ts - start < durationMs){
           requestAnimationFrame(step);
+        } else {
+          root.style.scrollBehavior = prevScrollBehavior;
         }
       }
       requestAnimationFrame(step);
@@ -713,6 +718,14 @@
     function toggle(){
       var wasExpanded = card.classList.contains('expanded');
       var prevH = card.offsetHeight; /* measure BEFORE the class flips */
+      /* If the toggle button (or anything in the card) still has focus when we
+         collapse it, some browsers auto-scroll to keep the focused element in
+         view as its position shifts during the reflow -- using the page's
+         smooth-scroll timing, which is exactly the "skip down, then snap back"
+         seen on close. Dropping focus first removes that scroll trigger. */
+      if(wasExpanded && document.activeElement && card.contains(document.activeElement)){
+        document.activeElement.blur();
+      }
       allCards.forEach(function(c){ c.classList.remove('expanded'); c.style.minHeight = ''; });
       if(!wasExpanded) card.classList.add('expanded');
 
