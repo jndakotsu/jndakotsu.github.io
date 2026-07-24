@@ -684,6 +684,9 @@
   }
   equalizeCardRows();
   window.addEventListener('resize', equalizeCardRows);
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(equalizeCardRows); /* fallback-font metrics differ from the swapped-in webfont */
+  }
 
   allCards.forEach(function(card){
     function toggle(){
