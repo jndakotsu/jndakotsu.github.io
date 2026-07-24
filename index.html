@@ -659,9 +659,14 @@
     }
   });
 
-  /* project card expand-to-summary toggle */
-  document.querySelectorAll('.project-card').forEach(function(card){
-    function toggle(){ card.classList.toggle('expanded'); }
+  /* project card expand-to-summary toggle (accordion: opening one closes any other) */
+  var allCards = document.querySelectorAll('.project-card');
+  allCards.forEach(function(card){
+    function toggle(){
+      var wasExpanded = card.classList.contains('expanded');
+      allCards.forEach(function(c){ c.classList.remove('expanded'); });
+      if(!wasExpanded) card.classList.add('expanded');
+    }
     card.addEventListener('click', function(e){
       if(e.target.closest('.proj-github-link')) return;
       toggle();
@@ -674,19 +679,6 @@
       }
     });
   });
-/* auto-collapse project card when it scrolls out of view */
-  if('IntersectionObserver' in window){
-    var cardObserver = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(!entry.isIntersecting){
-          entry.target.classList.remove('expanded');
-        }
-      });
-    }, {threshold: 0});
-    document.querySelectorAll('.project-card').forEach(function(card){
-      cardObserver.observe(card);
-    });
-  }
   /* scroll reveal */
   var revealEls = document.querySelectorAll('.reveal');
   if('IntersectionObserver' in window && !reduceMotion){
