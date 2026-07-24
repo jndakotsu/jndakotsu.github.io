@@ -93,6 +93,8 @@
   .stat-row{display:grid;grid-template-columns:repeat(2,1fr);max-width:440px;gap:28px;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);}
   .stat{padding:20px 18px 20px 0;border-right:1px solid var(--border-soft);}
   .stat:last-child{border-right:none;}
+  a.stat{display:block;text-decoration:none;color:inherit;cursor:pointer;transition:opacity .2s ease;}
+  a.stat:hover, a.stat:focus-visible{opacity:.72;}
   .stat-num{font-family:var(--font-display);font-size:1.7rem;color:var(--accent);font-weight:600;line-height:1;}
   .stat-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-top:8px;}
   @media (max-width:720px){
@@ -303,8 +305,8 @@
       </div>
 
       <div class="stat-row">
-        <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years lab &amp; field research</div></div>
-        <div class="stat"><div class="stat-num">5</div><div class="stat-label">Bioinformatics pipelines, GitHub</div></div>
+        <a class="stat" href="#experience"><div class="stat-num">5+</div><div class="stat-label">Years lab &amp; field research</div></a>
+        <a class="stat" href="#projects"><div class="stat-num">5</div><div class="stat-label">Bioinformatics pipelines, GitHub</div></a>
       </div>
     </div>
   </section>
