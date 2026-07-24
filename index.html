@@ -448,16 +448,17 @@
       <div class="project-card reveal" tabindex="0">
         <div class="proj-label">Bioinformatics · Machine Learning</div>
         <h3 class="proj-name">Microbial Community ML Pipeline</h3>
-        <p class="proj-teaser">Machine learning models predicting shoot growth from soil and microbial variables. Click for the summary.</p>
+        <p class="proj-teaser">Machine learning models predicting shoot growth and grain yield from soil and microbial variables. Click for the summary.</p>
         <div class="proj-details"><div>
           <div class="proj-thumb"><img src="https://github.com/jndakotsu/microbial-community-ml-pipeline/raw/main/figures/predicted_vs_actual.png" alt="Predicted vs actual shoot dry matter chart from the microbial community ML pipeline" loading="lazy"></div>
-          <p class="proj-desc">Moves an agronomy-style amendment trial (treatments × replicates × sampling weeks) into a reproducible Python pipeline: diversity indices from raw genus counts, ANOVA/Tukey HSD treatment comparisons, functional-guild inference, community-fingerprint classification, and machine-learning models (Ridge, Random Forest, Gradient Boosting) predicting shoot dry matter from soil, enzyme, and microbial variables, interpreted with SHAP rather than a single cherry-picked score.</p>
+          <p class="proj-desc">Moves an agronomy-style amendment trial (treatments × replicates × sampling weeks, run across a full 12-week cycle) into a reproducible Python pipeline: diversity indices from raw genus counts, ANOVA/Tukey HSD treatment comparisons, functional-guild inference, community-fingerprint classification, and machine-learning models (Ridge, Random Forest, Gradient Boosting) predicting shoot dry matter throughout the trial and grain yield at harvest, interpreted with SHAP and treatment-stratified cross-validation rather than a single cherry-picked score.</p>
           <div class="proj-stats">
-            <div class="proj-stat"><b>0.30–0.48</b>Test R² across growth models</div>
+            <div class="proj-stat"><b>0.60–0.68</b>Test R² across growth models</div>
+            <div class="proj-stat"><b>0.80</b>CV R² for grain yield at harvest</div>
             <div class="proj-stat"><b>5</b>Alpha-diversity metrics computed</div>
           </div>
           <div class="proj-tags">
-            <span>Python</span><span>scikit-learn</span><span>SHAP</span><span>Diversity Indices</span>
+            <span>Python</span><span>scikit-learn</span><span>SHAP</span><span>Diversity Indices</span><span>Yield Prediction</span>
           </div>
           <a class="proj-github-link" href="https://github.com/jndakotsu/microbial-community-ml-pipeline" target="_blank" rel="noopener">View full repository on GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
         </div></div>
