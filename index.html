@@ -181,8 +181,8 @@
   .project-card{border:1px solid var(--border);border-radius:10px;background:var(--panel);padding:28px;display:flex;flex-direction:column;
     text-decoration:none;color:var(--text);transition:border-color .25s ease, transform .2s ease;position:relative;overflow:hidden;}
   .project-card:hover{border-color:var(--accent);transform:translateY(-3px);}
-  .project-card::before{content:"";position:absolute;inset:0;background:radial-gradient(220px circle at var(--cx,50%) var(--cy,0%), var(--accent-dim), transparent 70%);opacity:0;transition:opacity .25s ease;pointer-events:none;}
-  .project-card:hover::before{opacity:1;}
+  .project-card::before{content:"";position:absolute;inset:0;background:radial-gradient(160px circle at var(--cx,50%) var(--cy,0%), var(--accent-dim), transparent 60%);opacity:0;transition:opacity .25s ease;pointer-events:none;}
+  .project-card:hover::before{opacity:0.5;}
   .project-card.in-progress{border-style:dashed;}
   .project-card.in-progress .proj-label{color:var(--text-muted);}
   .proj-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:10px;}
@@ -694,7 +694,22 @@
       allCards.forEach(function(c){ c.classList.remove('expanded'); c.style.minHeight = ''; });
       if(!wasExpanded) card.classList.add('expanded');
       else setTimeout(equalizeCardRows, 320); /* wait out the .3s collapse transition before re-measuring */
+      setTimeout(function(){
+        var rect = card.getBoundingClientRect();
+        var fullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+        if(!fullyVisible){
+          card.scrollIntoView({behavior:'smooth', block:'nearest'});
+        }
+      }, 340);
     }
+    card.addEventListener('mousedown', function(e){
+      /* stop the browser from focusing (and auto-scrolling to) the card/button
+         on mouse click -- that focus-driven scroll-into-view was firing mid-
+         transition, landing the viewport near whatever section sits below the
+         still-animating card (Contact, for the last card). Keyboard access via
+         Tab + Enter/Space still focuses normally since this only blocks mouse focus. */
+      if(!e.target.closest('.proj-github-link')) e.preventDefault();
+    });
     card.addEventListener('click', function(e){
       if(e.target.closest('.proj-github-link')) return;
       toggle();
