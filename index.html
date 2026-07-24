@@ -688,36 +688,34 @@
     document.fonts.ready.then(equalizeCardRows); /* fallback-font metrics differ from the swapped-in webfont */
   }
 
-  allCards.forEach(function(card){
-    /* Cancels the visual jump-then-bounce caused by the browser's own scroll
-       anchoring fighting the animated .3s grid-template-rows collapse. Tracks
-       the card's real height every frame and offsets scroll by the exact delta,
-       so the viewport never actually drifts in the first place. */
-    function compensateScroll(prevH, durationMs){
-      var start = null;
-      var root = document.documentElement;
-      var prevScrollBehavior = root.style.scrollBehavior;
-      root.style.scrollBehavior = 'auto'; /* force instant; smooth CSS would turn every per-frame nudge into its own animated scroll */
-      function step(ts){
-        if(start === null) start = ts;
-        var curH = card.offsetHeight;
-        var delta = prevH - curH; /* positive = card shrank */
-        if(delta !== 0){
-          window.scrollBy(0, -delta);
-          prevH = curH;
-        }
-        if(ts - start < durationMs){
-          requestAnimationFrame(step);
-        } else {
-          root.style.scrollBehavior = prevScrollBehavior;
-        }
-      }
-      requestAnimationFrame(step);
-    }
+  var projectGrid = document.querySelector('.project-grid');
+  var scrollLockActive = false;
+  var lastGridH = projectGrid ? projectGrid.offsetHeight : 0;
 
+  /* Cancels any visual jump caused by the project grid changing height while
+     a card is opening/closing -- whether from the card's own animated
+     collapse, the instant reset of sibling cards' minHeight, or the delayed
+     row re-equalization afterward. Only active during the toggle "settle"
+     window (see toggle()), so it doesn't fight unrelated page reflows. */
+  if(projectGrid && 'ResizeObserver' in window){
+    var gridRO = new ResizeObserver(function(){
+      var curH = projectGrid.offsetHeight;
+      var delta = lastGridH - curH; /* positive = grid shrank */
+      if(scrollLockActive && delta !== 0){
+        var root = document.documentElement;
+        var prevScrollBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto'; /* force instant; smooth CSS would animate (and compound) this */
+        window.scrollBy(0, -delta);
+        root.style.scrollBehavior = prevScrollBehavior;
+      }
+      lastGridH = curH;
+    });
+    gridRO.observe(projectGrid);
+  }
+
+  allCards.forEach(function(card){
     function toggle(){
       var wasExpanded = card.classList.contains('expanded');
-      var prevH = card.offsetHeight; /* measure BEFORE the class flips */
       /* If the toggle button (or anything in the card) still has focus when we
          collapse it, some browsers auto-scroll to keep the focused element in
          view as its position shifts during the reflow -- using the page's
@@ -726,10 +724,10 @@
       if(wasExpanded && document.activeElement && card.contains(document.activeElement)){
         document.activeElement.blur();
       }
+      if(projectGrid) lastGridH = projectGrid.offsetHeight; /* baseline right before any DOM changes */
+      scrollLockActive = true;
       allCards.forEach(function(c){ c.classList.remove('expanded'); c.style.minHeight = ''; });
       if(!wasExpanded) card.classList.add('expanded');
-
-      compensateScroll(prevH, 340); /* covers the .3s transition plus buffer */
 
       if(wasExpanded){
         setTimeout(equalizeCardRows, 320); /* wait out the .3s collapse transition before re-measuring */
@@ -742,6 +740,7 @@
           }
         }, 340);
       }
+      setTimeout(function(){ scrollLockActive = false; }, 420); /* release once everything (transition + row re-equalize) has settled */
     }
     card.addEventListener('mousedown', function(e){
       /* stop the browser from focusing (and auto-scrolling to) the card/button
