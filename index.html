@@ -690,7 +690,7 @@
       var wasExpanded = card.classList.contains('expanded');
       allCards.forEach(function(c){ c.classList.remove('expanded'); c.style.minHeight = ''; });
       if(!wasExpanded) card.classList.add('expanded');
-      else equalizeCardRows();
+      else setTimeout(equalizeCardRows, 320); /* wait out the .3s collapse transition before re-measuring */
     }
     card.addEventListener('click', function(e){
       if(e.target.closest('.proj-github-link')) return;
