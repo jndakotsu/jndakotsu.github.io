@@ -188,6 +188,7 @@
   .proj-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:10px;}
   .proj-name{font-family:var(--font-display);font-size:1.35rem;font-weight:600;margin:0 0 12px;}
   .proj-desc{font-size:.9rem;line-height:1.7;color:var(--text-muted);margin:0 0 20px;flex:1;}
+  .proj-lead{color:var(--text);font-weight:600;}
   .proj-teaser{font-size:.88rem;line-height:1.6;color:var(--text-muted);margin:0 0 16px;}
   .project-card{cursor:pointer;}
   .proj-details{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease;}
@@ -415,7 +416,7 @@
         <p class="proj-teaser">AMR gene detection from real manure metagenomic sequencing data. Click for the summary.</p>
         <div class="proj-details"><div>
           <div class="proj-thumb"><img src="https://github.com/jndakotsu/amr-resistome-pilot/raw/main/figures/drug_class_breakdown.png" alt="Drug class breakdown chart from the AMR resistome pilot" loading="lazy"></div>
-          <p class="proj-desc">A raw-reads-to-results pipeline detecting antimicrobial resistance (AMR) genes in real shotgun metagenomic sequencing data from livestock manure, using the CARD database and RGI (bwt mode). Compares resistomes between two real manure metagenome samples at both gene and drug-class level: quality control, alignment, and honest reporting of a low mapping rate, with no overstating what a small subsampled dataset can support. Later extended into a 12-sample statistically tested comparison (see next project).</p>
+          <p class="proj-desc"><span class="proj-lead">A pilot AMR gene-detection pipeline on real manure metagenomic data, later scaled into a properly powered 12-sample comparison.</span> A raw-reads-to-results pipeline detecting antimicrobial resistance (AMR) genes in real shotgun metagenomic sequencing data from livestock manure, using the CARD database and RGI (bwt mode). Compares resistomes between two real manure metagenome samples at both gene and drug-class level: quality control, alignment, and honest reporting of a low mapping rate, with no overstating what a small subsampled dataset can support. Later extended into a 12-sample statistically tested comparison (see next project).</p>
           <div class="proj-stats">
             <div class="proj-stat"><b>47 / 91</b>AMR genes detected (sample 1 / 2)</div>
             <div class="proj-stat"><b>7 / 124</b>genes shared across samples</div>
@@ -434,7 +435,7 @@
         <p class="proj-teaser">12-sample manure vs. soil AMR comparison with Mann-Whitney U + FDR testing. Click for the summary.</p>
         <div class="proj-details"><div>
           <div class="proj-thumb"><img src="https://github.com/jndakotsu/manure-resistome-pipeline/raw/main/figures/pca_manure_vs_soil.png" alt="PCA plot of manure vs soil AMR gene abundance" loading="lazy"></div>
-          <p class="proj-desc">Extends the pilot into a properly powered comparison: 12 shotgun metagenomic samples (6 manure, 6 soil) run through RGI/CARD alignment, merged into a gene × sample abundance matrix, then tested gene-by-gene with Mann-Whitney U and Benjamini-Hochberg FDR correction across all genes, so only statistically defensible differences are reported, not noise from testing hundreds of genes at once. PCA and a heatmap visualize which genes drive the separation between sources.</p>
+          <p class="proj-desc"><span class="proj-lead">A 12-sample manure-vs-soil AMR comparison, statistically tested with FDR correction across all 226 genes rather than eyeballing differences.</span> Extends the pilot into a properly powered comparison: 12 shotgun metagenomic samples (6 manure, 6 soil) run through RGI/CARD alignment, merged into a gene × sample abundance matrix, then tested gene-by-gene with Mann-Whitney U and Benjamini-Hochberg FDR correction across all genes, so only statistically defensible differences are reported, not noise from testing hundreds of genes at once. PCA and a heatmap visualize which genes drive the separation between sources.</p>
           <div class="proj-stats">
             <div class="proj-stat"><b>226</b>AMR genes tested</div>
             <div class="proj-stat"><b>23 / 226</b>genes FDR-significant (19 manure-enriched, 4 soil-enriched)</div>
@@ -453,7 +454,7 @@
         <p class="proj-teaser">Machine learning models predicting shoot growth and grain yield from soil and microbial variables. Click for the summary.</p>
         <div class="proj-details"><div>
           <div class="proj-thumb"><img src="https://github.com/jndakotsu/microbial-community-ml-pipeline/raw/main/figures/predicted_vs_actual.png" alt="Predicted vs actual shoot dry matter chart from the microbial community ML pipeline" loading="lazy"></div>
-          <p class="proj-desc">Moves an agronomy-style amendment trial (treatments × replicates × sampling weeks, run across a full 12-week cycle) into a reproducible Python pipeline: diversity indices from raw genus counts, ANOVA/Tukey HSD treatment comparisons, functional-guild inference, community-fingerprint classification, and machine-learning models (Ridge, Random Forest, Gradient Boosting) predicting shoot dry matter throughout the trial and grain yield at harvest, interpreted with SHAP and treatment-stratified cross-validation rather than a single cherry-picked score.</p>
+          <p class="proj-desc"><span class="proj-lead">Machine-learning models predicting plant growth and grain yield from soil and microbial data, validated with SHAP and cross-validation instead of a single score.</span> Moves an agronomy-style amendment trial (treatments × replicates × sampling weeks, run across a full 12-week cycle) into a reproducible Python pipeline: diversity indices from raw genus counts, ANOVA/Tukey HSD treatment comparisons, functional-guild inference, community-fingerprint classification, and machine-learning models (Ridge, Random Forest, Gradient Boosting) predicting shoot dry matter throughout the trial and grain yield at harvest, interpreted with SHAP and treatment-stratified cross-validation rather than a single cherry-picked score.</p>
           <div class="proj-stats">
             <div class="proj-stat"><b>0.60–0.68</b>Test R² across growth models</div>
             <div class="proj-stat"><b>0.80</b>CV R² for grain yield at harvest</div>
@@ -473,7 +474,7 @@
         <p class="proj-teaser">RDKit screening of phytochemicals from three medicinal plants for drug-likeness. Click for the summary.</p>
         <div class="proj-details"><div>
           <div class="proj-thumb"><img src="https://github.com/jndakotsu/moringa-parkia-vernonia-druglikeness/raw/main/fig2_lipinski_space.png" alt="MW vs TPSA chemical space chart from the drug-likeness screening" loading="lazy"></div>
-          <p class="proj-desc">A computational companion to my published leaf-infusion study: RDKit-based screening of 15 literature-reported phytochemicals from Moringa oleifera, Parkia biglobosa, and Vernonia amygdalina for drug-likeness (Lipinski's Rule of Five, Veber's rule) and structural alerts (PAINS, Brenk). Maps the phytochemical classes identified in the original qualitative assay onto named compounds and specific structures, going a step further than the parent paper.</p>
+          <p class="proj-desc"><span class="proj-lead">Computational drug-likeness screening of phytochemicals from three medicinal plants, extending a published wet-lab study to named compounds and structures.</span> A computational companion to my published leaf-infusion study: RDKit-based screening of 15 literature-reported phytochemicals from Moringa oleifera, Parkia biglobosa, and Vernonia amygdalina for drug-likeness (Lipinski's Rule of Five, Veber's rule) and structural alerts (PAINS, Brenk). Maps the phytochemical classes identified in the original qualitative assay onto named compounds and specific structures, going a step further than the parent paper.</p>
           <div class="proj-stats">
             <div class="proj-stat"><b>13 / 15</b>Compounds passing Ro5 &amp; Veber's rule</div>
             <div class="proj-stat"><b>3</b>Michael acceptor alerts (Brenk)</div>
@@ -492,7 +493,7 @@
         <p class="proj-teaser">BLASTp screening of 24 bacterial genomes for PGPB marker genes. Click for the summary.</p>
         <div class="proj-details"><div>
           <div class="proj-thumb"><img src="https://github.com/jndakotsu/pgpb-marker-screening/raw/main/results/marker_presence_heatmap.png" alt="Marker gene presence heatmap across 24 screened genomes" loading="lazy"></div>
-          <p class="proj-desc">A BLASTp-based pipeline screening 24 bacterial genomes (Bacillus, Pseudomonas, and Azospirillum species, plus outgroups) for three PGPB-associated marker genes: nifH (nitrogen fixation), pqqC (phosphate solubilization), and acdS (ACC deaminase/stress-ethylene modulation), against curated Swiss-Prot/NCBI reference sequences. Reciprocal BLAST caught a systematic false positive in Pseudomonas acdS hits, a cross-reaction within the broad PF00291 PLP-dependent enzyme family, filtered out before reporting genuine presence/absence calls.</p>
+          <p class="proj-desc"><span class="proj-lead">BLASTp screening of 24 bacterial genomes for PGPB marker genes, where reciprocal BLAST caught a false-positive cross-reaction before it reached the results.</span> A BLASTp-based pipeline screening 24 bacterial genomes (Bacillus, Pseudomonas, and Azospirillum species, plus outgroups) for three PGPB-associated marker genes: nifH (nitrogen fixation), pqqC (phosphate solubilization), and acdS (ACC deaminase/stress-ethylene modulation), against curated Swiss-Prot/NCBI reference sequences. Reciprocal BLAST caught a systematic false positive in Pseudomonas acdS hits, a cross-reaction within the broad PF00291 PLP-dependent enzyme family, filtered out before reporting genuine presence/absence calls.</p>
           <div class="proj-stats">
             <div class="proj-stat"><b>8 / 24</b>Genomes carrying nifH</div>
             <div class="proj-stat"><b>15 / 24</b>Genomes carrying pqqC</div>
@@ -511,7 +512,7 @@
         <h3 class="proj-name">Compost Bucket Microbiome Comparison</h3>
         <p class="proj-teaser">Comparing microbial communities across two compost bucket designs — in development. Click for the summary.</p>
         <div class="proj-details"><div>
-          <p class="proj-desc">Third in the pipeline series: real published 16S rRNA amplicon sequencing data comparing microbial communities across two compost bucket designs, conventional vs. a redesigned pyramid shape. Raw reads from 12 samples run through QIIME 2/DADA2 for per-sample error correction, paired-read merging, and chimera removal, producing a clean ASV table of exact sequence variants per sample — with six replicates per design, enough for genuine group-level hypothesis testing (PERMANOVA) on whether bucket geometry actually shifts community structure.</p>
+          <p class="proj-desc"><span class="proj-lead">A QIIME 2/DADA2 amplicon pipeline testing, with real replication, whether compost bucket geometry actually shifts microbial community structure.</span> Third in the pipeline series: real published 16S rRNA amplicon sequencing data comparing microbial communities across two compost bucket designs, conventional vs. a redesigned pyramid shape. Raw reads from 12 samples run through QIIME 2/DADA2 for per-sample error correction, paired-read merging, and chimera removal, producing a clean ASV table of exact sequence variants per sample — with six replicates per design, enough for genuine group-level hypothesis testing (PERMANOVA) on whether bucket geometry actually shifts community structure.</p>
           <div class="proj-stats">
             <div class="proj-stat"><b>6 vs 6</b>Samples per bucket design</div>
             <div class="proj-stat"><b>PERMANOVA</b>Group-level significance test</div>
