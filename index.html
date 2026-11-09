@@ -35,7 +35,7 @@
     overflow-x:hidden;
     position:relative;
   }
-  #field{position:absolute;top:0;left:0;width:100%;z-index:0;display:block;}
+  #field{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none;}
   .spotlight{position:fixed;inset:0;z-index:1;pointer-events:none;
     background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(212,175,55,0.05), transparent 70%);
     transition:background .1s ease;}
@@ -918,12 +918,10 @@
     var NODE_CAP = isCoarse ? 90 : 220;
 
     function resize(){
-      var docH = Math.max(document.body.scrollHeight, window.innerHeight);
-      w = canvas.width = window.innerWidth * dpr;
-      h = canvas.height = docH * dpr;
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = (h/dpr) + 'px';
-      NODE_COUNT = Math.min(NODE_CAP, Math.round((window.innerWidth * (h/dpr)) / 18000));
+      var vw = window.innerWidth, vh = window.innerHeight;
+      w = canvas.width = vw * dpr;
+      h = canvas.height = vh * dpr;
+      NODE_COUNT = Math.max(25, Math.min(NODE_CAP, Math.round((vw * vh) / 30000)));
       nodes = [];
       for(var i=0;i<NODE_COUNT;i++){
         nodes.push({
@@ -934,9 +932,13 @@
       }
     }
     resize();
-    window.addEventListener('resize', resize);
+    var resizeTimer;
+    window.addEventListener('resize', function(){
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 150);
+    });
     window.addEventListener('pointermove', function(e){
-      mouse.x = e.clientX*dpr; mouse.y = (e.clientY + window.scrollY)*dpr;
+      mouse.x = e.clientX*dpr; mouse.y = e.clientY*dpr;
     }, {passive:true});
     window.addEventListener('pointerleave', function(){
       mouse.x = -9999; mouse.y = -9999;
