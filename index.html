@@ -182,9 +182,12 @@
   .pub-featured{display:block;border:1px solid var(--border);border-radius:10px;background:var(--panel);padding:26px 28px;
     text-decoration:none;color:var(--text);max-width:720px;transition:border-color .25s ease, transform .2s ease;}
   .pub-featured:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .pub-static:hover{border-color:var(--border);transform:none;}
   .pub-status{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
   .pub-title{font-size:1rem;font-weight:500;margin:0 0 8px;line-height:1.55;font-family:var(--font-display);}
   .pub-meta{font-size:.82rem;color:var(--text-muted);font-family:var(--font-mono);margin:0 0 16px;}
+  .bio-lead,.about-body p,.proj-desc,.contact-text{text-align:justify;text-justify:inter-word;-webkit-hyphens:auto;hyphens:auto;}
+  @media (max-width:560px){.bio-lead,.about-body p,.proj-desc,.contact-text{text-align:left;}}
   .pub-note{font-size:.85rem;color:var(--text-muted);margin:18px 0 0;max-width:640px;line-height:1.7;}
 
   .research-highlight{border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:6px;background:var(--panel);
@@ -422,13 +425,18 @@
       <p class="pub-meta">Ezaka, E., Ndakotsu, J., &amp; Amosun, J.O. — Archives of Ecotoxicology, 8(2), 72–79</p>
       <div class="proj-cta">Read the paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
     </a>
+    <div class="pub-featured pub-static reveal" style="margin-bottom:16px;">
+      <div class="pub-status published">Peer-Reviewed Publication · 2025</div>
+      <p class="pub-title">Glufosinate ammonium spraying regime and soil bacteria: An assessment of response</p>
+      <p class="pub-meta" style="margin-bottom:0;">Ezaka, E., Adebajo, S.O., Adediran, A.B., Ndakotsu, J., &amp; Ukhureigbe, O.M. — Journal of Plant Science and Crop Production (Nigeria)</p>
+    </div>
     <a class="pub-featured reveal" href="https://doi.org/10.1016/j.sciaf.2021.e01001" target="_blank" rel="noopener">
       <div class="pub-status published">Peer-Reviewed Publication · 2021</div>
       <p class="pub-title">Bacterial growth inhibition and antioxidant potentials of leaf infusions of Moringa oleifera, Parkia biglobosa, and Vernonia amygdalina</p>
       <p class="pub-meta">Akpor, O.B., Ndakotsu, J., Evbuomwan, I.O., Olaolu, T.D., &amp; Osemwegie, O.O. — Scientific African, 14, e01001</p>
       <div class="proj-cta">Read the paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
     </a>
-    <p class="pub-note reveal">Plus a manuscript accepted for publication at the Journal of Plant Science and Crop Production, and a review under peer review at Discover Agriculture.</p>
+    <p class="pub-note reveal">Plus a review under peer review at Discover Agriculture.</p>
   </section>
 
   <!-- ================= PROJECTS ================= -->
